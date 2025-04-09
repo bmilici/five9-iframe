@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Five9 Chat Widget</title>
+    <script src="https://cdn.prod.us.five9.net/static/stable/chat/wrapper/index.js"></script>
+    <style>
+        /* Chat & Selection Container */
+        #chatContainer {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            background: rgb(255, 255, 255);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Dropdown & Input Field Styling */
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-container label {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .input-container select {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Button Styling */
+        #beginChatBtn {
+            margin-top: 15px;
+            width: 150px;
+            padding: 10px;
+            background-color: #4B5DFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        #beginChatBtn:hover {
+            background-color: #3A4BCC;
+        }
+
+        /* Chat Widget Area */
+        #chatWidgetContainer {
+            width: 100%;
+            height: 400px;
+            display: none; /* Initially hidden until chat starts */
+            margin-top: 15px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            #chatContainer {
+                width: 90%;
+                right: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Display Name Field -->
+    <label for="userName">User Name:</label>
+    <input type="text" id="userName" value="Brad Milici" readonly>
+
+    <!-- Chat Selection & Widget Container -->
+    <div id="chatContainer">
+        <div class="input-container">
+            <label for="ReasonSelect">Select Your Reason for Chat:</label>
+            <select id="ReasonSelect">
+                <option value="Flyers">Zelle, Bill Pay, External Transfer, or other Online Support</option>
+                <option value="Capitals">Account, Transaction Support or all other needs</option>
+            </select>
+        </div>
+
+        <button id="beginChatBtn">Begin Chat</button>
+
+        <!-- Embedded Chat Widget -->
+        <div id="chatWidgetContainer"></div>
+    </div>
+
+    <script>
+        document.getElementById("beginChatBtn").addEventListener("click", function() {
+            var userName = document.getElementById('userName').value;
+            var selectedReason = document.getElementById("ReasonSelect").value;
+
+            // Show chat widget when button is clicked
+            document.getElementById("chatWidgetContainer").style.display = "block";
+
+            // Initialize Five9 Chat
+            F9.Chat.Wrapper.init({
+                cdn: 'prod',
+                useBusinessHours: false,
+                languages: {
+                    enabled: false,
+                    backgroundColor: "#65758e"
+                },
+                l10n: {
+                    en: {
+                        messenger: { customText: {} },
+                        systemMessages: {
+                            transferredToParticipant: "The chat has been transferred to {name}.",
+                            transferredToGroup: "That chat has been transferred to group {group}."
+                        }
+                    }
+                },
+                prepopulatedFields: [
+                    { k: "campaign", v: "UC Chat" },
+                    { k: "email", v: "na@na.com" },
+                    { k: "Question", v: selectedReason},
+                    { k: "name", v: userName } // Auto-fill the chat name dynamically
+                ],
+                messenger: {
+                    integrationId: "642f0167b3069f011ac9b1a8",
+                    soundNotificationEnabled: true,
+                    transcriptPrintingEnabled: false,
+                    menuItems: {
+                        imageUpload: true,
+                        fileUpload: true,
+                        shareLocation: true
+                    },
+                    embedded: true,
+                    setViewportScale: false,
+                    containerId: "chatWidgetContainer",
+                    browserStorage: "sessionStorage",
+                    hideWidgetAfterBusinessHours: false,
+                    openLinkInSameTab: false,
+                    scheduleCallback: {
+                        isCallbackEnabled: false,
+                        requestCallbackList: "",
+                        customConfirmationMessage: "We will call you as soon as we can at [PHONE]",
+                        web2CampaignAPIHost: ""
+                    },
+                    fixedHeader: false,
+                    displayStyle: "button",
+                    customColors: {
+                        brandColor: "#65758e",
+                        conversationColor: "#4B5DFF",
+                        actionColor: "#4B5DFF"
+                    },
+                    carouselType: "default"
+                },
+                clearMessagesTimeout: 3
+            });
+        });
+    </script>
+
+</body>
+</html>

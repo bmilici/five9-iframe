@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Five9 Integration</title>
+  <script src="https://app.five9.com/dev/sdk/crm/latest/five9.crm.sdk.js"></script>
+</head>
+<body>
+  <!-- Embed the adapter -->
+  <iframe
+    id="five9Adapter"
+    src="https://app.five9.com/clients/integrations/adt.main.html?f9crmapi=true&f9verticalthreshold=300px"
+    style="width: 100%; height: 600px; border: none;"
+  ></iframe>
+
+  <script>
+    window.addEventListener('load', function () {
+      const iframe = document.getElementById("five9Adapter");
+
+      Five9.CRM.initialize(iframe, {
+        onReady: function () {
+          console.log("Five9 adapter is ready");
+        },
+        onError: function (err) {
+          console.error("Five9 SDK error:", err);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

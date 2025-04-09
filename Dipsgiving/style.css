@@ -1,0 +1,79 @@
+/* General Styling */
+body {
+    font-family: "Georgia", serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #fef6e4; /* Soft cream background */
+    color: #6b4226; /* Warm fall brown */
+}
+
+header {
+    background-color: #d35400; /* Fall orange */
+    color: white;
+    padding: 20px 0;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+header h2 {
+    font-size: 1.5em;
+    margin: 5px 0;
+}
+
+main {
+    padding: 20px;
+}
+
+h3 {
+    color: #8c4b20; /* Warm fall brown */
+    margin-top: 20px;
+}
+
+#dips-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #e67e22; /* Pumpkin orange */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+button:disabled {
+    cursor: not-allowed;
+    background-color: lightgray;
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+ul li {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+footer {
+    background-color: #d35400; /* Fall orange */
+    color: white;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
