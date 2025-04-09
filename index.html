@@ -1,29 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Five9 Integration</title>
-  <script src="https://app.five9.com/dev/sdk/crm/latest/five9.crm.sdk.js"></script>
+  <meta charset="UTF-8" />
+  <title>Five9 Floating Panel</title>
+  <style>
+    #five9Container {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 400px;
+      height: 40px;
+      background-color: #004a8f;
+      color: white;
+      font-weight: bold;
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: height 0.3s ease;
+      z-index: 1000;
+    }
+
+    #five9Header {
+      padding: 10px;
+      cursor: pointer;
+      text-align: center;
+      user-select: none;
+    }
+
+    #five9Frame {
+      width: 100%;
+      height: 560px;
+      border: none;
+      display: none;
+    }
+
+    #five9Container.open {
+      height: 600px;
+    }
+
+    #five9Container.open #five9Frame {
+      display: block;
+    }
+  </style>
 </head>
 <body>
-  <!-- Embed the adapter -->
-  <iframe
-    id="five9Adapter"
-    src="https://app.five9.com/clients/integrations/adt.main.html?f9crmapi=true&f9verticalthreshold=300px"
-    style="width: 100%; height: 600px; border: none;"
-  ></iframe>
+
+  <!-- Floating Five9 Panel -->
+  <div id="five9Container">
+    <div id="five9Header">Five9</div>
+    <iframe
+      id="five9Frame"
+      src="https://app.five9.com/clients/integrations/adt.main.html?f9crmapi=true&f9verticalthreshold=300px"
+    ></iframe>
+  </div>
+
+  <!-- Optional SDK -->
+  <script src="https://app.five9.com/dev/sdk/crm/latest/five9.crm.sdk.js"></script>
 
   <script>
-    window.addEventListener('load', function () {
-      const iframe = document.getElementById("five9Adapter");
+    // Toggle panel open/close
+    const container = document.getElementById('five9Container');
+    const header = document.getElementById('five9Header');
 
+    header.addEventListener('click', () => {
+      container.classList.toggle('open');
+    });
+
+    // Optional: Initialize SDK when iframe is opened
+    const iframe = document.getElementById("five9Frame");
+    iframe.addEventListener('load', () => {
       Five9.CRM.initialize(iframe, {
-        onReady: function () {
-          console.log("Five9 adapter is ready");
-        },
-        onError: function (err) {
-          console.error("Five9 SDK error:", err);
-        }
+        onReady: () => console.log("Five9 ready"),
+        onError: (err) => console.error("Five9 error", err)
       });
     });
   </script>
